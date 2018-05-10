@@ -53,8 +53,6 @@ def main():
     for response in response_list:
         response['is_exist'] = vaild(response)
         del response['text']
-        print("响应码：[{0[status_code]}]\t{0[url]}\t{0[is_exist]}".format(response))
-
     save(response_list)
 
 if __name__ == '__main__':
@@ -62,7 +60,7 @@ if __name__ == '__main__':
 
 
 rs = (grequests.get(u) for u in read_urls('urls.txt'))
-response_list = grequests.map(rs, gtimeout=10)
+response_list = grequests.map(rs, gtimeout=20, size=3)
 for response in response_list:
     response['is_exist'] = vaild(response)
     del response['text']

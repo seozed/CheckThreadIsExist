@@ -78,7 +78,7 @@ class AsyncRequest(object):
 
 def send(r, pool=None, stream=False):
     """c"""
-
+    print("开始请求", r.url)
     if pool is not None:
         return pool.spawn(r.send, stream=stream)
 
@@ -109,8 +109,13 @@ def extract_item(request):
 
     item = dict()
     item['url'] = request.url
-    item['text'] = request.response.text or ''
-    item['status_code'] = request.response.status_code or 0
+    if request.response:
+        item['text'] = request.response.text
+        item['status_code'] = request.response.status_code
+    else:
+        item['text'] = ''
+        item['status_code'] = 0
+
     return item
 
 def map(requests, stream=False, size=None, exception_handler=None, gtimeout=None):
